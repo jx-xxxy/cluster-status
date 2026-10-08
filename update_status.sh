@@ -137,6 +137,7 @@ fi
 
 history_rows=""
 history_count=0
+history_limit=10
 while IFS='|' read -r history_id history_name history_state history_elapsed history_end history_tres history_workdir history_nodes history_exit; do
   [ -n "${history_id:-}" ] || continue
   case "$history_state" in
@@ -155,7 +156,8 @@ while IFS='|' read -r history_id history_name history_state history_elapsed hist
       <div class=\"history-meta\"><span>结束 <b>$(printf '%s' "$history_end_display" | html_escape)</b></span><span>耗时 <b>$(format_duration "$history_elapsed" | html_escape)</b></span><span>分配核数 <b>$(printf '%s' "$history_cpu" | html_escape)</b></span></div>
       <div class=\"history-dir\"><b>$history_short_dir</b></div>
     </article>"
-done < "$history_file"
+  [ "$history_count" -lt "$history_limit" ] || break
+done < <(LC_ALL=C sort -t '|' -k5,5r -k1,1nr "$history_file")
 
 if [ "$history_count" -eq 0 ]; then
   history_rows='<div class="empty">近两天没有已结束任务记录</div>'
@@ -217,7 +219,7 @@ cat > "$OUT_FILE" <<EOF
   </section>
   <section aria-label="任务列表">$rows</section>
   <section aria-label="节点资源"><div class="section-head"><h2>节点资源</h2><span>每 5 分钟更新</span></div><div class="node-grid">$node_rows</div></section>
-  <section aria-label="近两天任务历史"><div class="section-head"><h2>近两天任务历史</h2><span>$history_count 条已结束任务</span></div><div class="history-list">$history_rows</div></section>
+  <section aria-label="近两天任务历史"><div class="section-head"><h2>近两天任务历史</h2><span>最近 $history_count 条已结束任务</span></div><div class="history-list">$history_rows</div></section>
   <div class="foot">仅显示当前账号的 Slurm 任务 · 目录从用户目录后开始 · 页面每 5 分钟自动刷新</div>
 </main></body></html>
 EOF
