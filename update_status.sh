@@ -31,8 +31,8 @@ status_label() {
 
 short_workdir() {
   case "$1" in
-    /home/jiangxin/*) printf 'jiangxin/%s' "${1#/home/jiangxin/}" ;;
-    /home/jiangxin) printf 'jiangxin' ;;
+    /home/jiangxin/*) printf '%s' "${1#/home/jiangxin/}" ;;
+    /home/jiangxin) printf '主目录' ;;
     *) printf '%s' "$1" ;;
   esac
 }
@@ -167,7 +167,9 @@ cat > "$OUT_FILE" <<EOF
     :root { color-scheme: light; font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; background:#f4f7fb; color:#172033; }
     * { box-sizing:border-box; } body { margin:0; padding:28px 14px 40px; background:radial-gradient(circle at 8% 0%,#e8f1ff 0,transparent 32%),#f4f7fb; }
     .wrap { max-width:790px; margin:auto; } .header { display:flex; justify-content:space-between; gap:16px; align-items:end; margin-bottom:20px; }
-    h1 { margin:0; font-size:28px; letter-spacing:-.03em; } .updated { color:#70809a; font-size:13px; white-space:nowrap; }
+    h1 { margin:0; font-size:28px; letter-spacing:-.03em; } .header-actions { display:flex; align-items:center; gap:10px; } .updated { color:#70809a; font-size:13px; white-space:nowrap; }
+    .refresh { border:1px solid #d6e0ee; border-radius:999px; padding:7px 11px; color:#38547d; background:#fff; font:inherit; font-size:12px; cursor:pointer; box-shadow:0 4px 12px #1a2b4a0a; }
+    .refresh:hover { background:#f7faff; border-color:#b9cbea; } .refresh:active { transform:translateY(1px); }
     .summary { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:16px; }
     .stat { background:#fff; border:1px solid #e3e9f2; border-radius:16px; padding:14px 16px; box-shadow:0 8px 22px #1a2b4a0a; }
     .stat span { display:block; color:#70809a; font-size:12px; margin-bottom:4px; } .stat b { font-size:24px; }
@@ -181,18 +183,18 @@ cat > "$OUT_FILE" <<EOF
     .node-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:11px; } .node-card,.history-card { background:#fff; border:1px solid #e3e9f2; border-radius:16px; padding:15px 16px; box-shadow:0 8px 22px #1a2b4a0a; } .node-head,.history-main { display:flex; justify-content:space-between; align-items:center; gap:10px; } .node-state,.history-state { border-radius:999px; padding:4px 8px; color:#53627a; background:#edf1f7; font-size:11px; } .node-state.idle { color:#087443; background:#e6f7ee; } .node-state.mix { color:#996300; background:#fff3d8; } .node-state.alloc { color:#b42318; background:#feeceb; } .node-cpu { display:flex; gap:20px; margin-top:16px; } .node-cpu div { display:flex; flex-direction:column; gap:2px; } .node-cpu b { font-size:20px; } .node-cpu span { color:#8b98ac; font-size:11px; } .bar { height:6px; margin-top:14px; overflow:hidden; border-radius:99px; background:#edf1f7; } .bar i { display:block; height:100%; border-radius:99px; background:linear-gradient(90deg,#78b8ff,#4e86f7); }
     .history-list { display:grid; gap:10px; } .history-main strong { font-size:14px; } .history-main small { color:#9aa6b8; margin-left:8px; font:11px ui-monospace,SFMono-Regular,Consolas,monospace; } .history-state.completed { color:#087443; background:#e6f7ee; } .history-state.failed { color:#b42318; background:#feeceb; } .history-meta { display:flex; flex-wrap:wrap; gap:12px 20px; margin-top:11px; color:#8b98ac; font-size:12px; } .history-meta b { color:#34435c; font-weight:600; } .history-dir { margin-top:10px; padding:8px 10px; overflow:hidden; border-radius:9px; background:#f7f9fc; color:#8b98ac; font-size:11px; text-overflow:ellipsis; white-space:nowrap; } .history-dir b { color:#53627a; font-family:ui-monospace,SFMono-Regular,Consolas,monospace; font-weight:500; }
     .empty { background:#fff; border:1px dashed #c8d2e2; border-radius:16px; padding:28px; text-align:center; color:#70809a; }
-    .foot { color:#8b98ac; font-size:12px; margin-top:18px; } @media (max-width:520px) { body { padding:20px 10px 30px; } .header { display:block; } .updated { display:block; margin-top:7px; } .summary { gap:7px; } .stat { padding:12px 10px; } .stat b { font-size:21px; } .job-card { padding:15px; } .facts { gap:10px 16px; } .facts span { min-width:98px; } .location,.workdir { display:block; } .location span,.workdir span { margin-bottom:4px; } .workdir b { display:block; } .node-grid { grid-template-columns:1fr; } .node-cpu { gap:24px; } }
+    .foot { color:#8b98ac; font-size:12px; margin-top:18px; } @media (max-width:520px) { body { padding:20px 10px 30px; } .header { display:block; } .header-actions { justify-content:space-between; margin-top:8px; } .updated { display:block; } .summary { gap:7px; } .stat { padding:12px 10px; } .stat b { font-size:21px; } .job-card { padding:15px; } .facts { gap:10px 16px; } .facts span { min-width:98px; } .location,.workdir { display:block; } .location span,.workdir span { margin-bottom:4px; } .workdir b { display:block; } .node-grid { grid-template-columns:1fr; } .node-cpu { gap:24px; } }
   </style>
 </head>
 <body><main class="wrap">
-  <header class="header"><h1>集群任务状态</h1><div class="updated">更新于 $now</div></header>
+  <header class="header"><h1>集群任务状态</h1><div class="header-actions"><div class="updated">更新于 $now</div><button class="refresh" type="button" onclick="window.location.href=window.location.pathname+'?refresh='+Date.now()" aria-label="手动刷新页面">↻ 手动刷新</button></div></header>
   <section class="summary" aria-label="任务统计">
     <div class="stat"><span>全部任务</span><b>$total</b></div><div class="stat"><span>运行中</span><b>$running</b></div><div class="stat"><span>排队中</span><b>$pending</b></div>
   </section>
   <section aria-label="任务列表">$rows</section>
   <section aria-label="节点资源"><div class="section-head"><h2>节点资源</h2><span>每 5 分钟更新</span></div><div class="node-grid">$node_rows</div></section>
   <section aria-label="近两天任务历史"><div class="section-head"><h2>近两天任务历史</h2><span>$history_count 条已结束任务</span></div><div class="history-list">$history_rows</div></section>
-  <div class="foot">仅显示当前账号的 Slurm 任务 · 目录从 jiangxin/ 开始 · 页面每 5 分钟自动刷新</div>
+  <div class="foot">仅显示当前账号的 Slurm 任务 · 目录从用户目录后开始 · 页面每 5 分钟自动刷新</div>
 </main></body></html>
 EOF
 
