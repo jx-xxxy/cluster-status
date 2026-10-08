@@ -6,43 +6,43 @@
   <meta http-equiv="refresh" content="300">
   <title>集群任务状态</title>
   <style>
-    :root { color-scheme: light; font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; background:#f4f7fb; color:#172033; }
-    * { box-sizing:border-box; } body { margin:0; padding:28px 14px 40px; background:radial-gradient(circle at 8% 0%,#e8f1ff 0,transparent 32%),#f4f7fb; }
+    :root { color-scheme: light; font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; background:#f3f6fc; color:#192743; }
+    * { box-sizing:border-box; } body { margin:0; padding:28px 14px 40px; background:radial-gradient(circle at 8% 0%,#e6efff 0,transparent 35%),#f3f6fc; }
     .wrap { max-width:790px; margin:auto; } .header { display:flex; justify-content:space-between; gap:16px; align-items:end; margin-bottom:20px; }
     h1 { margin:0; font-size:28px; letter-spacing:-.03em; } .header-actions { display:flex; align-items:center; gap:10px; } .updated { color:#70809a; font-size:13px; white-space:nowrap; }
     .refresh { border:1px solid #d6e0ee; border-radius:999px; padding:7px 11px; color:#38547d; background:#fff; font:inherit; font-size:12px; cursor:pointer; box-shadow:0 4px 12px #1a2b4a0a; }
     .refresh:hover { background:#f7faff; border-color:#b9cbea; } .refresh:active { transform:translateY(1px); }
     .summary { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:16px; }
-    .stat { background:#fff; border:1px solid #e3e9f2; border-radius:16px; padding:14px 16px; box-shadow:0 8px 22px #1a2b4a0a; }
-    .stat span { display:block; color:#70809a; font-size:12px; margin-bottom:4px; } .stat b { font-size:24px; }
-    .job-card { background:#fff; border:1px solid #e3e9f2; border-radius:18px; padding:17px 18px; margin:11px 0; box-shadow:0 8px 22px #1a2b4a0a; }
+    .stat { background:#fff; border:1px solid #e1e8f4; border-radius:16px; padding:14px 16px; text-align:center; box-shadow:0 8px 22px #1a2b4a0a; }
+    .stat span { display:block; color:#6b7c98; font-size:12px; margin-bottom:4px; } .stat b { font-size:24px; color:#1b3968; }
+    .job-card { width:100%; min-width:0; background:#fff; border:1px solid #e1e8f4; border-radius:18px; padding:17px 18px; margin:11px 0; box-shadow:0 8px 22px #1a2b4a0a; }
     .job-main,.facts,.location,.workdir { display:flex; justify-content:space-between; gap:12px; align-items:center; } .job-main strong { overflow-wrap:anywhere; }
     .job-title { display:flex; gap:9px; align-items:center; min-width:0; } .job-dot { width:9px; height:9px; border-radius:50%; flex:none; } .job-dot.running { background:#12a66a; box-shadow:0 0 0 4px #e6f7ee; } .job-dot.pending { background:#e2a100; box-shadow:0 0 0 4px #fff3d8; } .job-dot.failed { background:#d92d20; box-shadow:0 0 0 4px #feeceb; } .job-dot.other { background:#7b8aa3; box-shadow:0 0 0 4px #edf1f7; } .job-id { color:#9aa6b8; font:11px ui-monospace,SFMono-Regular,Consolas,monospace; }
     .state { border-radius:999px; padding:4px 9px; font-size:12px; white-space:nowrap; } .running { color:#087443; background:#e6f7ee; } .pending { color:#996300; background:#fff3d8; } .failed { color:#b42318; background:#feeceb; } .other { color:#44546f; background:#edf1f7; }
-    .facts { justify-content:flex-start; flex-wrap:wrap; margin-top:16px; padding-top:13px; border-top:1px solid #edf1f6; } .facts span { min-width:112px; } .facts em,.location span,.workdir span { display:block; color:#8b98ac; font-size:11px; font-style:normal; margin-bottom:3px; } .facts b,.location b,.workdir b { color:#34435c; font-size:13px; font-weight:600; } .facts small { color:#9aa6b8; font-size:10px; margin-left:4px; }
-    .location,.workdir { justify-content:flex-start; align-items:baseline; margin-top:11px; gap:10px; color:#34435c; font-size:13px; } .location span,.workdir span { min-width:80px; margin:0; } .location b { overflow-wrap:anywhere; } .workdir { padding:9px 10px; border-radius:10px; background:#f7f9fc; } .workdir b { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-family:ui-monospace,SFMono-Regular,Consolas,monospace; font-size:12px; }
+    .facts { justify-content:flex-start; flex-wrap:wrap; margin-top:16px; padding-top:13px; border-top:1px solid #edf1f6; } .facts span { min-width:112px; } .facts em,.location span,.workdir span { display:block; color:#7485a1; font-size:11px; font-style:normal; margin-bottom:3px; } .facts b,.location b,.workdir b { color:#304565; font-size:13px; font-weight:600; } .facts small { color:#9aa6b8; font-size:10px; margin-left:4px; }
+    .location,.workdir { justify-content:flex-start; align-items:baseline; margin-top:11px; gap:10px; color:#34435c; font-size:13px; } .location span,.workdir span { min-width:80px; margin:0; } .location b { overflow-wrap:anywhere; } .workdir { display:grid; grid-template-columns:80px minmax(0,1fr); align-items:start; padding:10px 12px; border-radius:10px; background:#f5f8fd; } .workdir b { min-width:0; white-space:normal; overflow-wrap:anywhere; font-family:ui-monospace,SFMono-Regular,Consolas,monospace; font-size:12px; line-height:1.55; }
     .section-head { display:flex; justify-content:space-between; align-items:baseline; margin:25px 2px 10px; } h2 { margin:0; font-size:18px; letter-spacing:-.02em; } .section-head span { color:#8b98ac; font-size:12px; }
-    .node-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:11px; } .node-card,.history-card { background:#fff; border:1px solid #e3e9f2; border-radius:16px; padding:15px 16px; box-shadow:0 8px 22px #1a2b4a0a; } .node-head,.history-main { display:flex; justify-content:space-between; align-items:center; gap:10px; } .node-state,.history-state { border-radius:999px; padding:4px 8px; color:#53627a; background:#edf1f7; font-size:11px; } .node-state.idle { color:#087443; background:#e6f7ee; } .node-state.mix { color:#996300; background:#fff3d8; } .node-state.alloc { color:#b42318; background:#feeceb; } .node-cpu { display:flex; gap:20px; margin-top:16px; } .node-cpu div { display:flex; flex-direction:column; gap:2px; } .node-cpu b { font-size:20px; } .node-cpu span { color:#8b98ac; font-size:11px; } .bar { height:6px; margin-top:14px; overflow:hidden; border-radius:99px; background:#edf1f7; } .bar i { display:block; height:100%; border-radius:99px; background:linear-gradient(90deg,#78b8ff,#4e86f7); }
-    .history-list { display:grid; gap:10px; } .history-main strong { font-size:14px; } .history-main small { color:#9aa6b8; margin-left:8px; font:11px ui-monospace,SFMono-Regular,Consolas,monospace; } .history-state.completed { color:#087443; background:#e6f7ee; } .history-state.failed { color:#b42318; background:#feeceb; } .history-meta { display:flex; flex-wrap:wrap; gap:12px 20px; margin-top:11px; color:#8b98ac; font-size:12px; } .history-meta b { color:#34435c; font-weight:600; } .history-dir { margin-top:10px; padding:8px 10px; overflow:hidden; border-radius:9px; background:#f7f9fc; color:#8b98ac; font-size:11px; text-overflow:ellipsis; white-space:nowrap; } .history-dir b { color:#53627a; font-family:ui-monospace,SFMono-Regular,Consolas,monospace; font-weight:500; }
+    .node-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:11px; } .node-card,.history-card { width:100%; min-width:0; background:#fff; border:1px solid #e1e8f4; border-radius:16px; padding:15px 16px; box-shadow:0 8px 22px #1a2b4a0a; } .node-head,.history-main { display:flex; justify-content:space-between; align-items:center; gap:10px; } .node-state,.history-state { border-radius:999px; padding:4px 8px; color:#53627a; background:#edf1f7; font-size:11px; white-space:nowrap; } .node-state.idle { color:#087443; background:#e6f7ee; } .node-state.mix { color:#996300; background:#fff3d8; } .node-state.alloc { color:#b42318; background:#feeceb; } .node-cpu { display:flex; justify-content:space-around; gap:20px; margin-top:16px; text-align:center; } .node-cpu div { display:flex; flex-direction:column; gap:2px; } .node-cpu b { font-size:20px; color:#1b3968; } .node-cpu span { color:#70809a; font-size:11px; } .bar { height:6px; margin-top:14px; overflow:hidden; border-radius:99px; background:#edf1f7; } .bar i { display:block; height:100%; border-radius:99px; background:linear-gradient(90deg,#78b8ff,#4e86f7); }
+    .history-list { display:grid; width:100%; grid-template-columns:minmax(0,1fr); gap:10px; } .history-main > div { min-width:0; overflow-wrap:anywhere; } .history-main strong { font-size:14px; } .history-main small { color:#8090aa; margin-left:8px; font:11px ui-monospace,SFMono-Regular,Consolas,monospace; } .history-state.completed { color:#087443; background:#e6f7ee; } .history-state.failed { color:#b42318; background:#feeceb; } .history-meta { display:flex; flex-wrap:wrap; gap:12px 20px; margin-top:11px; color:#72839d; font-size:12px; } .history-meta b { color:#304565; font-weight:600; } .history-dir { width:100%; min-width:0; margin-top:10px; padding:9px 10px; border-radius:9px; background:#f5f8fd; color:#53627a; font-size:12px; line-height:1.55; overflow-wrap:anywhere; } .history-dir b { font-family:ui-monospace,SFMono-Regular,Consolas,monospace; font-weight:500; }
     .empty { background:#fff; border:1px dashed #c8d2e2; border-radius:16px; padding:28px; text-align:center; color:#70809a; }
-    .foot { color:#8b98ac; font-size:12px; margin-top:18px; } @media (max-width:520px) { body { padding:20px 10px 30px; } .header { display:block; } .header-actions { justify-content:space-between; margin-top:8px; } .updated { display:block; } .summary { gap:7px; } .stat { padding:12px 10px; } .stat b { font-size:21px; } .job-card { padding:15px; } .facts { gap:10px 16px; } .facts span { min-width:98px; } .location,.workdir { display:block; } .location span,.workdir span { margin-bottom:4px; } .workdir b { display:block; } .node-grid { grid-template-columns:1fr; } .node-cpu { gap:24px; } }
+    .foot { color:#8291a8; font-size:12px; margin-top:18px; text-align:center; } @media (max-width:520px) { body { padding:20px 10px 30px; } .header { display:block; } .header-actions { justify-content:space-between; margin-top:8px; } .updated { display:block; } .summary { gap:7px; } .stat { padding:12px 8px; } .stat b { font-size:21px; } .job-card,.history-card { padding:15px; } .facts { gap:10px 16px; } .facts span { min-width:98px; } .location { display:block; } .location span { margin-bottom:4px; } .workdir { grid-template-columns:minmax(0,1fr); gap:3px; } .workdir b { display:block; } .node-grid { grid-template-columns:minmax(0,1fr); } .node-cpu { gap:24px; } .history-meta { gap:6px 14px; } }
   </style>
 </head>
 <body><main class="wrap">
-  <header class="header"><h1>集群任务状态</h1><div class="header-actions"><div class="updated">更新于 2026-10-08 12:20:01</div><button class="refresh" type="button" onclick="window.location.href=window.location.pathname+'?refresh='+Date.now()" aria-label="手动刷新页面">↻ 手动刷新</button></div></header>
+  <header class="header"><h1>集群任务状态</h1><div class="header-actions"><div class="updated">更新于 2026-10-08 12:21:30</div><button class="refresh" type="button" onclick="window.location.href=window.location.pathname+'?refresh='+Date.now()" aria-label="手动刷新页面">↻ 手动刷新</button></div></header>
   <section class="summary" aria-label="任务统计">
     <div class="stat"><span>全部任务</span><b>2</b></div><div class="stat"><span>运行中</span><b>2</b></div><div class="stat"><span>排队中</span><b>0</b></div>
   </section>
   <section aria-label="任务列表">
     <article class="job-card">
       <div class="job-main"><div class="job-title"><span class="job-dot running"></span><strong>tri_stretch4_NEB</strong><small class="job-id">#386341</small></div><span class="state running">运行中</span></div>
-      <div class="facts"><span><em>运行时间</em><b>1:43:51</b></span><span><em>分配核数</em><b>30</b></span><span><em>节点数</em><b>1</b></span></div>
+      <div class="facts"><span><em>运行时间</em><b>0天01时45分</b></span><span><em>分配核数</em><b>30</b></span><span><em>节点数</em><b>1</b></span></div>
       <div class="location"><span>节点 / 排队原因</span><b>cn1</b></div>
       <div class="workdir" title="AlN&amp;SiC/three/stretch4_relaxed_AAB_CAA_NEB_5images"><span>投递目录</span><b>AlN&amp;SiC/three/stretch4_relaxed_AAB_CAA_NEB_5images</b></div>
     </article>
     <article class="job-card">
       <div class="job-main"><div class="job-title"><span class="job-dot running"></span><strong>sub.vasp</strong><small class="job-id">#386266</small></div><span class="state running">运行中</span></div>
-      <div class="facts"><span><em>运行时间</em><b>1-21:49:10</b></span><span><em>分配核数</em><b>32</b></span><span><em>节点数</em><b>1</b></span></div>
+      <div class="facts"><span><em>运行时间</em><b>1天21时50分</b></span><span><em>分配核数</em><b>32</b></span><span><em>节点数</em><b>1</b></span></div>
       <div class="location"><span>节点 / 排队原因</span><b>master</b></div>
       <div class="workdir" title="CeTaN3_U/polarization_spin_U5_afm/N3_WC"><span>投递目录</span><b>CeTaN3_U/polarization_spin_U5_afm/N3_WC</b></div>
     </article></section>
@@ -52,277 +52,277 @@
   <section aria-label="近两天任务历史"><div class="section-head"><h2>近两天任务历史</h2><span>55 条已结束任务</span></div><div class="history-list">
     <article class="history-card">
       <div class="history-main"><div><strong>sub.vasp</strong><small>#385995</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-06 12:55:53</b></span><span>耗时 <b>1-01:00:29</b></span><span>分配核数 <b>48</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-06 12:55:53</b></span><span>耗时 <b>1天01时00分</b></span><span>分配核数 <b>48</b></span></div>
       <div class="history-dir"><b>CeTaN3_U/polarization_spin_U5/piezo_N1_WC</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>sub.vasp</strong><small>#386238</small></div><span class="history-state failed">已取消</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-06 13:23:42</b></span><span>耗时 <b>00:24:03</b></span><span>分配核数 <b>16</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-06 13:23:42</b></span><span>耗时 <b>0天00时24分</b></span><span>分配核数 <b>16</b></span></div>
       <div class="history-dir"><b>CeTaN3_U/magcheck_U5_20261006/FM_N1</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>sub.vasp</strong><small>#386239</small></div><span class="history-state failed">已取消</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-06 13:23:42</b></span><span>耗时 <b>00:00:00</b></span><span>分配核数 <b>-</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-06 13:23:42</b></span><span>耗时 <b>0天00时00分</b></span><span>分配核数 <b>-</b></span></div>
       <div class="history-dir"><b>CeTaN3_U/magcheck_U5_20261006/FM_N2</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>sub.vasp</strong><small>#386240</small></div><span class="history-state failed">已取消</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-06 13:23:42</b></span><span>耗时 <b>00:00:00</b></span><span>分配核数 <b>-</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-06 13:23:42</b></span><span>耗时 <b>0天00时00分</b></span><span>分配核数 <b>-</b></span></div>
       <div class="history-dir"><b>CeTaN3_U/magcheck_U5_20261006/FM_N3</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>sub.vasp</strong><small>#386241</small></div><span class="history-state failed">已取消</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-06 13:23:42</b></span><span>耗时 <b>00:00:00</b></span><span>分配核数 <b>-</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-06 13:23:42</b></span><span>耗时 <b>0天00时00分</b></span><span>分配核数 <b>-</b></span></div>
       <div class="history-dir"><b>CeTaN3_U/magcheck_U5_20261006/FM_N4</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>sub.vasp</strong><small>#386242</small></div><span class="history-state failed">已取消</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-06 13:23:42</b></span><span>耗时 <b>00:00:00</b></span><span>分配核数 <b>-</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-06 13:23:42</b></span><span>耗时 <b>0天00时00分</b></span><span>分配核数 <b>-</b></span></div>
       <div class="history-dir"><b>CeTaN3_U/magcheck_U5_20261006/AFM_N1</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>sub.vasp</strong><small>#386243</small></div><span class="history-state failed">已取消</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-06 13:23:42</b></span><span>耗时 <b>00:00:00</b></span><span>分配核数 <b>-</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-06 13:23:42</b></span><span>耗时 <b>0天00时00分</b></span><span>分配核数 <b>-</b></span></div>
       <div class="history-dir"><b>CeTaN3_U/magcheck_U5_20261006/AFM_N2</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>sub.vasp</strong><small>#386244</small></div><span class="history-state failed">已取消</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-06 13:23:42</b></span><span>耗时 <b>00:00:00</b></span><span>分配核数 <b>-</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-06 13:23:42</b></span><span>耗时 <b>0天00时00分</b></span><span>分配核数 <b>-</b></span></div>
       <div class="history-dir"><b>CeTaN3_U/magcheck_U5_20261006/AFM_N3</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>sub.vasp</strong><small>#386245</small></div><span class="history-state failed">已取消</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-06 13:23:42</b></span><span>耗时 <b>00:00:00</b></span><span>分配核数 <b>-</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-06 13:23:42</b></span><span>耗时 <b>0天00时00分</b></span><span>分配核数 <b>-</b></span></div>
       <div class="history-dir"><b>CeTaN3_U/magcheck_U5_20261006/AFM_N4</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>sub.vasp</strong><small>#386246</small></div><span class="history-state failed">已取消</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-06 13:30:08</b></span><span>耗时 <b>00:05:36</b></span><span>分配核数 <b>16</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-06 13:30:08</b></span><span>耗时 <b>0天00时05分</b></span><span>分配核数 <b>16</b></span></div>
       <div class="history-dir"><b>CeTaN3_U/magcheck_U5_20261006_kpar4/FM_N1</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>sub.vasp</strong><small>#386247</small></div><span class="history-state failed">已取消</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-06 13:30:08</b></span><span>耗时 <b>00:00:00</b></span><span>分配核数 <b>-</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-06 13:30:08</b></span><span>耗时 <b>0天00时00分</b></span><span>分配核数 <b>-</b></span></div>
       <div class="history-dir"><b>CeTaN3_U/magcheck_U5_20261006_kpar4/FM_N2</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>sub.vasp</strong><small>#386248</small></div><span class="history-state failed">已取消</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-06 13:30:08</b></span><span>耗时 <b>00:00:00</b></span><span>分配核数 <b>-</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-06 13:30:08</b></span><span>耗时 <b>0天00时00分</b></span><span>分配核数 <b>-</b></span></div>
       <div class="history-dir"><b>CeTaN3_U/magcheck_U5_20261006_kpar4/FM_N3</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>sub.vasp</strong><small>#386249</small></div><span class="history-state failed">已取消</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-06 13:30:08</b></span><span>耗时 <b>00:00:00</b></span><span>分配核数 <b>-</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-06 13:30:08</b></span><span>耗时 <b>0天00时00分</b></span><span>分配核数 <b>-</b></span></div>
       <div class="history-dir"><b>CeTaN3_U/magcheck_U5_20261006_kpar4/FM_N4</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>sub.vasp</strong><small>#386250</small></div><span class="history-state failed">已取消</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-06 13:30:08</b></span><span>耗时 <b>00:00:00</b></span><span>分配核数 <b>-</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-06 13:30:08</b></span><span>耗时 <b>0天00时00分</b></span><span>分配核数 <b>-</b></span></div>
       <div class="history-dir"><b>CeTaN3_U/magcheck_U5_20261006_kpar4/AFM_N1</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>sub.vasp</strong><small>#386251</small></div><span class="history-state failed">已取消</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-06 13:30:08</b></span><span>耗时 <b>00:00:00</b></span><span>分配核数 <b>-</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-06 13:30:08</b></span><span>耗时 <b>0天00时00分</b></span><span>分配核数 <b>-</b></span></div>
       <div class="history-dir"><b>CeTaN3_U/magcheck_U5_20261006_kpar4/AFM_N2</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>sub.vasp</strong><small>#386252</small></div><span class="history-state failed">已取消</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-06 13:30:08</b></span><span>耗时 <b>00:00:00</b></span><span>分配核数 <b>-</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-06 13:30:08</b></span><span>耗时 <b>0天00时00分</b></span><span>分配核数 <b>-</b></span></div>
       <div class="history-dir"><b>CeTaN3_U/magcheck_U5_20261006_kpar4/AFM_N3</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>sub.vasp</strong><small>#386253</small></div><span class="history-state failed">已取消</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-06 13:30:08</b></span><span>耗时 <b>00:00:00</b></span><span>分配核数 <b>-</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-06 13:30:08</b></span><span>耗时 <b>0天00时00分</b></span><span>分配核数 <b>-</b></span></div>
       <div class="history-dir"><b>CeTaN3_U/magcheck_U5_20261006_kpar4/AFM_N4</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>sub.vasp</strong><small>#386254</small></div><span class="history-state failed">已取消</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-06 13:34:21</b></span><span>耗时 <b>00:00:00</b></span><span>分配核数 <b>-</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-06 13:34:21</b></span><span>耗时 <b>0天00时00分</b></span><span>分配核数 <b>-</b></span></div>
       <div class="history-dir"><b>CeTaN3_U/magcheck_U5_20261006_kpar4_32/FM_N1</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>sub.vasp</strong><small>#386255</small></div><span class="history-state failed">已取消</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-06 13:34:21</b></span><span>耗时 <b>00:00:00</b></span><span>分配核数 <b>-</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-06 13:34:21</b></span><span>耗时 <b>0天00时00分</b></span><span>分配核数 <b>-</b></span></div>
       <div class="history-dir"><b>CeTaN3_U/magcheck_U5_20261006_kpar4_32/FM_N2</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>sub.vasp</strong><small>#386256</small></div><span class="history-state failed">已取消</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-06 13:34:21</b></span><span>耗时 <b>00:00:00</b></span><span>分配核数 <b>-</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-06 13:34:21</b></span><span>耗时 <b>0天00时00分</b></span><span>分配核数 <b>-</b></span></div>
       <div class="history-dir"><b>CeTaN3_U/magcheck_U5_20261006_kpar4_32/FM_N3</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>sub.vasp</strong><small>#386257</small></div><span class="history-state failed">已取消</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-06 13:34:21</b></span><span>耗时 <b>00:00:00</b></span><span>分配核数 <b>-</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-06 13:34:21</b></span><span>耗时 <b>0天00时00分</b></span><span>分配核数 <b>-</b></span></div>
       <div class="history-dir"><b>CeTaN3_U/magcheck_U5_20261006_kpar4_32/FM_N4</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>sub.vasp</strong><small>#386258</small></div><span class="history-state failed">已取消</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-06 13:34:21</b></span><span>耗时 <b>00:00:00</b></span><span>分配核数 <b>-</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-06 13:34:21</b></span><span>耗时 <b>0天00时00分</b></span><span>分配核数 <b>-</b></span></div>
       <div class="history-dir"><b>CeTaN3_U/magcheck_U5_20261006_kpar4_32/AFM_N1</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>sub.vasp</strong><small>#386259</small></div><span class="history-state failed">已取消</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-06 13:34:21</b></span><span>耗时 <b>00:00:00</b></span><span>分配核数 <b>-</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-06 13:34:21</b></span><span>耗时 <b>0天00时00分</b></span><span>分配核数 <b>-</b></span></div>
       <div class="history-dir"><b>CeTaN3_U/magcheck_U5_20261006_kpar4_32/AFM_N2</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>sub.vasp</strong><small>#386260</small></div><span class="history-state failed">已取消</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-06 13:34:21</b></span><span>耗时 <b>00:00:00</b></span><span>分配核数 <b>-</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-06 13:34:21</b></span><span>耗时 <b>0天00时00分</b></span><span>分配核数 <b>-</b></span></div>
       <div class="history-dir"><b>CeTaN3_U/magcheck_U5_20261006_kpar4_32/AFM_N3</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>sub.vasp</strong><small>#386261</small></div><span class="history-state failed">已取消</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-06 13:34:21</b></span><span>耗时 <b>00:00:00</b></span><span>分配核数 <b>-</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-06 13:34:21</b></span><span>耗时 <b>0天00时00分</b></span><span>分配核数 <b>-</b></span></div>
       <div class="history-dir"><b>CeTaN3_U/magcheck_U5_20261006_kpar4_32/AFM_N4</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>sub.vasp</strong><small>#386262</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-06 15:13:31</b></span><span>耗时 <b>01:23:50</b></span><span>分配核数 <b>32</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-06 15:13:31</b></span><span>耗时 <b>0天01时23分</b></span><span>分配核数 <b>32</b></span></div>
       <div class="history-dir"><b>CeTaN3_U/magcheck_U5_20261006_finalstate/AFM_N3</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>sub.vasp</strong><small>#386263</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-06 15:11:51</b></span><span>耗时 <b>01:21:09</b></span><span>分配核数 <b>32</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-06 15:11:51</b></span><span>耗时 <b>0天01时21分</b></span><span>分配核数 <b>32</b></span></div>
       <div class="history-dir"><b>CeTaN3_U/magcheck_U5_20261006_finalstate/AFM_N4</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>mace_N1</strong><small>#386309</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-07 17:37:33</b></span><span>耗时 <b>00:02:09</b></span><span>分配核数 <b>4</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-07 17:37:33</b></span><span>耗时 <b>0天00时02分</b></span><span>分配核数 <b>4</b></span></div>
       <div class="history-dir"><b>主目录</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>AAp_fix0</strong><small>#386312</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-07 17:52:36</b></span><span>耗时 <b>00:00:42</b></span><span>分配核数 <b>8</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-07 17:52:36</b></span><span>耗时 <b>0天00时00分</b></span><span>分配核数 <b>8</b></span></div>
       <div class="history-dir"><b>AlN&amp;SiC/two/strain_AAprime_CA/eps_0/AA_CAl</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>CA_fix0</strong><small>#386313</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-07 17:54:22</b></span><span>耗时 <b>00:02:28</b></span><span>分配核数 <b>8</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-07 17:54:22</b></span><span>耗时 <b>0天00时02分</b></span><span>分配核数 <b>8</b></span></div>
       <div class="history-dir"><b>AlN&amp;SiC/two/strain_AAprime_CA/eps_0/CA</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>CA_lat_p</strong><small>#386314</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-07 18:34:14</b></span><span>耗时 <b>00:27:20</b></span><span>分配核数 <b>8</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-07 18:34:14</b></span><span>耗时 <b>0天00时27分</b></span><span>分配核数 <b>8</b></span></div>
       <div class="history-dir"><b>AlN&amp;SiC/two/strain_AAprime_CA/CA_lateral_stability/plus</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>CA_lat_m</strong><small>#386315</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-07 18:40:33</b></span><span>耗时 <b>00:33:39</b></span><span>分配核数 <b>8</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-07 18:40:33</b></span><span>耗时 <b>0天00时33分</b></span><span>分配核数 <b>8</b></span></div>
       <div class="history-dir"><b>AlN&amp;SiC/two/strain_AAprime_CA/CA_lateral_stability/minus</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>tri_end12</strong><small>#386317</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-07 18:57:43</b></span><span>耗时 <b>00:01:27</b></span><span>分配核数 <b>12</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-07 18:57:43</b></span><span>耗时 <b>0天00时01分</b></span><span>分配核数 <b>12</b></span></div>
       <div class="history-dir"><b>AlN&amp;SiC/three/endpoint_stability</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>tri_end12</strong><small>#386318</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-07 19:01:52</b></span><span>耗时 <b>00:05:36</b></span><span>分配核数 <b>12</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-07 19:01:52</b></span><span>耗时 <b>0天00时05分</b></span><span>分配核数 <b>12</b></span></div>
       <div class="history-dir"><b>AlN&amp;SiC/three/endpoint_stability</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>tri_end12</strong><small>#386319</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-07 19:02:24</b></span><span>耗时 <b>00:04:38</b></span><span>分配核数 <b>12</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-07 19:02:24</b></span><span>耗时 <b>0天00时04分</b></span><span>分配核数 <b>12</b></span></div>
       <div class="history-dir"><b>AlN&amp;SiC/three/endpoint_stability</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>tri_end12</strong><small>#386320</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-07 19:03:14</b></span><span>耗时 <b>00:01:19</b></span><span>分配核数 <b>12</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-07 19:03:14</b></span><span>耗时 <b>0天00时01分</b></span><span>分配核数 <b>12</b></span></div>
       <div class="history-dir"><b>AlN&amp;SiC/three/endpoint_stability</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>tri_end12</strong><small>#386321</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-07 19:07:32</b></span><span>耗时 <b>00:04:37</b></span><span>分配核数 <b>12</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-07 19:07:32</b></span><span>耗时 <b>0天00时04分</b></span><span>分配核数 <b>12</b></span></div>
       <div class="history-dir"><b>AlN&amp;SiC/three/endpoint_stability</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>tri_end12</strong><small>#386316</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-07 19:08:54</b></span><span>耗时 <b>00:05:29</b></span><span>分配核数 <b>12</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-07 19:08:54</b></span><span>耗时 <b>0天00时05分</b></span><span>分配核数 <b>12</b></span></div>
       <div class="history-dir"><b>AlN&amp;SiC/three/endpoint_stability</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>tri_end_refine</strong><small>#386323</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-07 19:35:59</b></span><span>耗时 <b>00:01:34</b></span><span>分配核数 <b>12</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-07 19:35:59</b></span><span>耗时 <b>0天00时01分</b></span><span>分配核数 <b>12</b></span></div>
       <div class="history-dir"><b>AlN&amp;SiC/three/endpoint_refine_for_response</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>tri_end_refine</strong><small>#386322</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-07 19:35:52</b></span><span>耗时 <b>00:01:27</b></span><span>分配核数 <b>12</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-07 19:35:52</b></span><span>耗时 <b>0天00时01分</b></span><span>分配核数 <b>12</b></span></div>
       <div class="history-dir"><b>AlN&amp;SiC/three/endpoint_refine_for_response</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>tri_BEC_frozen</strong><small>#386325</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-07 19:49:06</b></span><span>耗时 <b>00:07:40</b></span><span>分配核数 <b>12</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-07 19:49:06</b></span><span>耗时 <b>0天00时07分</b></span><span>分配核数 <b>12</b></span></div>
       <div class="history-dir"><b>AlN&amp;SiC/three/strain_BEC_frozen</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>tri_BEC_frozen</strong><small>#386326</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-07 19:48:28</b></span><span>耗时 <b>00:07:02</b></span><span>分配核数 <b>12</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-07 19:48:28</b></span><span>耗时 <b>0天00时07分</b></span><span>分配核数 <b>12</b></span></div>
       <div class="history-dir"><b>AlN&amp;SiC/three/strain_BEC_frozen</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>tri_BEC_frozen</strong><small>#386327</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-07 19:56:35</b></span><span>耗时 <b>00:07:39</b></span><span>分配核数 <b>12</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-07 19:56:35</b></span><span>耗时 <b>0天00时07分</b></span><span>分配核数 <b>12</b></span></div>
       <div class="history-dir"><b>AlN&amp;SiC/three/strain_BEC_frozen</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>tri_BEC_frozen</strong><small>#386328</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-07 19:57:32</b></span><span>耗时 <b>00:08:06</b></span><span>分配核数 <b>12</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-07 19:57:32</b></span><span>耗时 <b>0天00时08分</b></span><span>分配核数 <b>12</b></span></div>
       <div class="history-dir"><b>AlN&amp;SiC/three/strain_BEC_frozen</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>tri_BEC_frozen</strong><small>#386329</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-07 20:04:40</b></span><span>耗时 <b>00:07:44</b></span><span>分配核数 <b>12</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-07 20:04:40</b></span><span>耗时 <b>0天00时07分</b></span><span>分配核数 <b>12</b></span></div>
       <div class="history-dir"><b>AlN&amp;SiC/three/strain_BEC_frozen</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>tri_BEC_frozen</strong><small>#386330</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-07 20:05:26</b></span><span>耗时 <b>00:07:30</b></span><span>分配核数 <b>12</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-07 20:05:26</b></span><span>耗时 <b>0天00时07分</b></span><span>分配核数 <b>12</b></span></div>
       <div class="history-dir"><b>AlN&amp;SiC/three/strain_BEC_frozen</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>tri_BEC_frozen</strong><small>#386331</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-07 20:11:47</b></span><span>耗时 <b>00:06:51</b></span><span>分配核数 <b>12</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-07 20:11:47</b></span><span>耗时 <b>0天00时06分</b></span><span>分配核数 <b>12</b></span></div>
       <div class="history-dir"><b>AlN&amp;SiC/three/strain_BEC_frozen</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>tri_BEC_frozen</strong><small>#386332</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-07 20:13:49</b></span><span>耗时 <b>00:07:53</b></span><span>分配核数 <b>12</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-07 20:13:49</b></span><span>耗时 <b>0天00时07分</b></span><span>分配核数 <b>12</b></span></div>
       <div class="history-dir"><b>AlN&amp;SiC/three/strain_BEC_frozen</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>tri_BEC_frozen</strong><small>#386333</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-07 20:19:52</b></span><span>耗时 <b>00:07:56</b></span><span>分配核数 <b>12</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-07 20:19:52</b></span><span>耗时 <b>0天00时07分</b></span><span>分配核数 <b>12</b></span></div>
       <div class="history-dir"><b>AlN&amp;SiC/three/strain_BEC_frozen</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>tri_BEC_frozen</strong><small>#386324</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-07 20:21:55</b></span><span>耗时 <b>00:07:59</b></span><span>分配核数 <b>12</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-07 20:21:55</b></span><span>耗时 <b>0天00时07分</b></span><span>分配核数 <b>12</b></span></div>
       <div class="history-dir"><b>AlN&amp;SiC/three/strain_BEC_frozen</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>tri_stretch4_relax</strong><small>#386336</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-07 23:01:45</b></span><span>耗时 <b>01:35:19</b></span><span>分配核数 <b>12</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-07 23:01:45</b></span><span>耗时 <b>0天01时35分</b></span><span>分配核数 <b>12</b></span></div>
       <div class="history-dir"><b>AlN&amp;SiC/three/stretch4_endpoint_relax</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>tri_stretch4_relax</strong><small>#386335</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-07 22:51:06</b></span><span>耗时 <b>01:24:40</b></span><span>分配核数 <b>12</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-07 22:51:06</b></span><span>耗时 <b>0天01时24分</b></span><span>分配核数 <b>12</b></span></div>
       <div class="history-dir"><b>AlN&amp;SiC/three/stretch4_endpoint_relax</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>free</strong><small>#386337</small></div><span class="history-state failed">已取消</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-08 10:05:17</b></span><span>耗时 <b>00:00:00</b></span><span>分配核数 <b>-</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-08 10:05:17</b></span><span>耗时 <b>0天00时00分</b></span><span>分配核数 <b>-</b></span></div>
       <div class="history-dir"><b>CeTaN3_U/polarization_spin_U5_afm/N3_WC</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>bash</strong><small>#386338</small></div><span class="history-state failed">已取消</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-08 10:06:01</b></span><span>耗时 <b>00:00:00</b></span><span>分配核数 <b>-</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-08 10:06:01</b></span><span>耗时 <b>0天00时00分</b></span><span>分配核数 <b>-</b></span></div>
       <div class="history-dir"><b>CeTaN3_U/polarization_spin_U5_afm/N3_WC</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>bash</strong><small>#386339</small></div><span class="history-state failed">已取消</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-08 10:10:25</b></span><span>耗时 <b>00:00:00</b></span><span>分配核数 <b>-</b></span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-08 10:10:25</b></span><span>耗时 <b>0天00时00分</b></span><span>分配核数 <b>-</b></span></div>
       <div class="history-dir"><b>CeTaN3_U/polarization_spin_U5_afm/N3_WC</b></div>
     </article></div></section>
   <div class="foot">仅显示当前账号的 Slurm 任务 · 目录从用户目录后开始 · 页面每 5 分钟自动刷新</div>
