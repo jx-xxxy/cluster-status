@@ -29,13 +29,57 @@ status_label() {
   esac
 }
 
+short_workdir() {
+  case "$1" in
+    /home/jiangxin/*) printf 'jiangxin/%s' "${1#/home/jiangxin/}" ;;
+    /home/jiangxin) printf 'jiangxin' ;;
+    *) printf '%s' "$1" ;;
+  esac
+}
+
+history_class() {
+  case "$1" in
+    COMPLETED*) printf 'completed' ;;
+    CANCELLED*|FAILED*|TIMEOUT*|OUT_OF_MEMORY*|NODE_FAIL*) printf 'failed' ;;
+    *) printf 'other' ;;
+  esac
+}
+
+history_label() {
+  case "$1" in
+    COMPLETED*) printf '完成' ;;
+    CANCELLED*) printf '已取消' ;;
+    FAILED*) printf '失败' ;;
+    TIMEOUT*) printf '超时' ;;
+    OUT_OF_MEMORY*) printf '内存不足' ;;
+    NODE_FAIL*) printf '节点失败' ;;
+    *) printf '%s' "$1" ;;
+  esac
+}
+
+node_label() {
+  case "$1" in
+    idle*) printf '空闲' ;;
+    mix*) printf '混合' ;;
+    alloc*) printf '已分配' ;;
+    down*|drain*|fail*) printf '不可用' ;;
+    *) printf '%s' "$1" ;;
+  esac
+}
+
 now="$(date '+%Y-%m-%d %H:%M:%S')"
 queue_file="$(mktemp)"
-trap 'rm -f "$queue_file"' EXIT
+history_file="$(mktemp)"
+node_file="$(mktemp)"
+trap 'rm -f "$queue_file" "$history_file" "$node_file"' EXIT
 
-# Only the authenticated user's jobs are collected. No other users' task data
-# is sent to the public repository.
-squeue -h -u "${USER:?}" -o '%i|%j|%T|%M|%R|%c|%C|%Z|%D' > "$queue_file"
+# Only the authenticated user's jobs and accounting history are collected.
+# No other users' task data is sent to the public repository.
+squeue -h -u "${USER:?}" -o '%i|%j|%T|%M|%R|%C|%Z|%D' > "$queue_file"
+sacct -X -u "${USER:?}" -S "$(date -d '2 days ago' '+%Y-%m-%dT%H:%M:%S')" \
+  --format=JobIDRaw,JobName,State,Elapsed,End,AllocTRES,WorkDir,NodeList,ExitCode \
+  --parsable2 --noheader > "$history_file" 2>/dev/null || true
+sinfo -h -N -o '%N|%t|%C' > "$node_file" 2>/dev/null || true
 
 total=0
 running=0
@@ -43,7 +87,7 @@ pending=0
 other=0
 rows=""
 
-while IFS='|' read -r job_id job_name state runtime location requested_cores allocated_cores workdir nodes; do
+while IFS='|' read -r job_id job_name state runtime location allocated_cores workdir nodes; do
   [ -n "${job_name:-}" ] || continue
   total=$((total + 1))
   case "$state" in
@@ -53,13 +97,11 @@ while IFS='|' read -r job_id job_name state runtime location requested_cores all
   esac
   class="$(status_class "$state")"
   label="$(status_label "$state")"
-  request_cores="$(printf '%s' "$requested_cores" | html_escape)"
-  assigned_cores="$(printf '%s' "$allocated_cores" | html_escape)"
-  escaped_workdir="$(printf '%s' "$workdir" | html_escape)"
+  escaped_workdir="$(short_workdir "$workdir" | html_escape)"
   rows="$rows
     <article class=\"job-card\">
       <div class=\"job-main\"><div class=\"job-title\"><span class=\"job-dot $class\"></span><strong>$(printf '%s' "$job_name" | html_escape)</strong><small class=\"job-id\">#$(printf '%s' "$job_id" | html_escape)</small></div><span class=\"state $class\">$label</span></div>
-      <div class=\"facts\"><span><em>运行时间</em><b>$(printf '%s' "$runtime" | html_escape)</b></span><span><em>核数</em><b>$request_cores / $assigned_cores</b><small>申请 / 已分配</small></span><span><em>节点</em><b>$(printf '%s' "$nodes" | html_escape)</b></span></div>
+      <div class=\"facts\"><span><em>运行时间</em><b>$(printf '%s' "$runtime" | html_escape)</b></span><span><em>分配核数</em><b>$(printf '%s' "$allocated_cores" | html_escape)</b></span><span><em>节点数</em><b>$(printf '%s' "$nodes" | html_escape)</b></span></div>
       <div class=\"location\"><span>节点 / 排队原因</span><b>$(printf '%s' "$location" | html_escape)</b></div>
       <div class=\"workdir\" title=\"$escaped_workdir\"><span>投递目录</span><b>$escaped_workdir</b></div>
     </article>"
@@ -67,6 +109,50 @@ done < "$queue_file"
 
 if [ "$total" -eq 0 ]; then
   rows='<div class="empty">当前没有排队或运行中的任务</div>'
+fi
+
+history_rows=""
+history_count=0
+while IFS='|' read -r history_id history_name history_state history_elapsed history_end history_tres history_workdir history_nodes history_exit; do
+  [ -n "${history_id:-}" ] || continue
+  case "$history_state" in
+    RUNNING*|PENDING*|CONFIGURING*|COMPLETING*|SUSPENDED*) continue ;;
+  esac
+  history_count=$((history_count + 1))
+  history_cpu="$(printf '%s' "$history_tres" | sed -n 's/.*cpu=\([0-9][0-9]*\).*/\1/p')"
+  [ -n "$history_cpu" ] || history_cpu='-'
+  history_class_name="$(history_class "$history_state")"
+  history_label_text="$(history_label "$history_state")"
+  history_end_display="$(printf '%s' "$history_end" | sed 's/T/ /')"
+  history_short_dir="$(short_workdir "$history_workdir" | html_escape)"
+  history_rows="$history_rows
+    <article class=\"history-card\">
+      <div class=\"history-main\"><div><strong>$(printf '%s' "$history_name" | html_escape)</strong><small>#$(printf '%s' "$history_id" | html_escape)</small></div><span class=\"history-state $history_class_name\">$history_label_text</span></div>
+      <div class=\"history-meta\"><span>结束 <b>$(printf '%s' "$history_end_display" | html_escape)</b></span><span>耗时 <b>$(printf '%s' "$history_elapsed" | html_escape)</b></span><span>分配核数 <b>$(printf '%s' "$history_cpu" | html_escape)</b></span></div>
+      <div class=\"history-dir\"><b>$history_short_dir</b></div>
+    </article>"
+done < "$history_file"
+
+if [ "$history_count" -eq 0 ]; then
+  history_rows='<div class="empty">近两天没有已结束任务记录</div>'
+fi
+
+node_rows=""
+node_count=0
+while IFS='|' read -r node_name node_state cpu_state; do
+  [ -n "${node_name:-}" ] || continue
+  IFS='/' read -r node_alloc node_idle node_other node_total <<EOF_CPU
+$cpu_state
+EOF_CPU
+  node_count=$((node_count + 1))
+  node_label_text="$(node_label "$node_state")"
+  node_percent="$(awk -v a="$node_alloc" -v t="$node_total" 'BEGIN { if (t > 0) printf "%.1f", a/t*100; else print 0 }')"
+  node_rows="$node_rows
+    <article class=\"node-card\"><div class=\"node-head\"><strong>$(printf '%s' "$node_name" | html_escape)</strong><span class=\"node-state $node_state\">$node_label_text</span></div><div class=\"node-cpu\"><div><b>$(printf '%s' "$node_idle" | html_escape)</b><span>空闲核</span></div><div><b>$(printf '%s' "$node_alloc" | html_escape)</b><span>已用核</span></div><div><b>$(printf '%s' "$node_total" | html_escape)</b><span>总核数</span></div></div><div class=\"bar\"><i style=\"width:${node_percent}%\"></i></div></article>"
+done < "$node_file"
+
+if [ "$node_count" -eq 0 ]; then
+  node_rows='<div class="empty">暂时无法读取节点资源</div>'
 fi
 
 cat > "$OUT_FILE" <<EOF
@@ -91,8 +177,11 @@ cat > "$OUT_FILE" <<EOF
     .state { border-radius:999px; padding:4px 9px; font-size:12px; white-space:nowrap; } .running { color:#087443; background:#e6f7ee; } .pending { color:#996300; background:#fff3d8; } .failed { color:#b42318; background:#feeceb; } .other { color:#44546f; background:#edf1f7; }
     .facts { justify-content:flex-start; flex-wrap:wrap; margin-top:16px; padding-top:13px; border-top:1px solid #edf1f6; } .facts span { min-width:112px; } .facts em,.location span,.workdir span { display:block; color:#8b98ac; font-size:11px; font-style:normal; margin-bottom:3px; } .facts b,.location b,.workdir b { color:#34435c; font-size:13px; font-weight:600; } .facts small { color:#9aa6b8; font-size:10px; margin-left:4px; }
     .location,.workdir { justify-content:flex-start; align-items:baseline; margin-top:11px; gap:10px; color:#34435c; font-size:13px; } .location span,.workdir span { min-width:80px; margin:0; } .location b { overflow-wrap:anywhere; } .workdir { padding:9px 10px; border-radius:10px; background:#f7f9fc; } .workdir b { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-family:ui-monospace,SFMono-Regular,Consolas,monospace; font-size:12px; }
+    .section-head { display:flex; justify-content:space-between; align-items:baseline; margin:25px 2px 10px; } h2 { margin:0; font-size:18px; letter-spacing:-.02em; } .section-head span { color:#8b98ac; font-size:12px; }
+    .node-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:11px; } .node-card,.history-card { background:#fff; border:1px solid #e3e9f2; border-radius:16px; padding:15px 16px; box-shadow:0 8px 22px #1a2b4a0a; } .node-head,.history-main { display:flex; justify-content:space-between; align-items:center; gap:10px; } .node-state,.history-state { border-radius:999px; padding:4px 8px; color:#53627a; background:#edf1f7; font-size:11px; } .node-state.idle { color:#087443; background:#e6f7ee; } .node-state.mix { color:#996300; background:#fff3d8; } .node-state.alloc { color:#b42318; background:#feeceb; } .node-cpu { display:flex; gap:20px; margin-top:16px; } .node-cpu div { display:flex; flex-direction:column; gap:2px; } .node-cpu b { font-size:20px; } .node-cpu span { color:#8b98ac; font-size:11px; } .bar { height:6px; margin-top:14px; overflow:hidden; border-radius:99px; background:#edf1f7; } .bar i { display:block; height:100%; border-radius:99px; background:linear-gradient(90deg,#78b8ff,#4e86f7); }
+    .history-list { display:grid; gap:10px; } .history-main strong { font-size:14px; } .history-main small { color:#9aa6b8; margin-left:8px; font:11px ui-monospace,SFMono-Regular,Consolas,monospace; } .history-state.completed { color:#087443; background:#e6f7ee; } .history-state.failed { color:#b42318; background:#feeceb; } .history-meta { display:flex; flex-wrap:wrap; gap:12px 20px; margin-top:11px; color:#8b98ac; font-size:12px; } .history-meta b { color:#34435c; font-weight:600; } .history-dir { margin-top:10px; padding:8px 10px; overflow:hidden; border-radius:9px; background:#f7f9fc; color:#8b98ac; font-size:11px; text-overflow:ellipsis; white-space:nowrap; } .history-dir b { color:#53627a; font-family:ui-monospace,SFMono-Regular,Consolas,monospace; font-weight:500; }
     .empty { background:#fff; border:1px dashed #c8d2e2; border-radius:16px; padding:28px; text-align:center; color:#70809a; }
-    .foot { color:#8b98ac; font-size:12px; margin-top:18px; } @media (max-width:520px) { body { padding:20px 10px 30px; } .header { display:block; } .updated { display:block; margin-top:7px; } .summary { gap:7px; } .stat { padding:12px 10px; } .stat b { font-size:21px; } .job-card { padding:15px; } .facts { gap:10px 16px; } .facts span { min-width:98px; } .location,.workdir { display:block; } .location span,.workdir span { margin-bottom:4px; } .workdir b { display:block; } }
+    .foot { color:#8b98ac; font-size:12px; margin-top:18px; } @media (max-width:520px) { body { padding:20px 10px 30px; } .header { display:block; } .updated { display:block; margin-top:7px; } .summary { gap:7px; } .stat { padding:12px 10px; } .stat b { font-size:21px; } .job-card { padding:15px; } .facts { gap:10px 16px; } .facts span { min-width:98px; } .location,.workdir { display:block; } .location span,.workdir span { margin-bottom:4px; } .workdir b { display:block; } .node-grid { grid-template-columns:1fr; } .node-cpu { gap:24px; } }
   </style>
 </head>
 <body><main class="wrap">
@@ -101,7 +190,9 @@ cat > "$OUT_FILE" <<EOF
     <div class="stat"><span>全部任务</span><b>$total</b></div><div class="stat"><span>运行中</span><b>$running</b></div><div class="stat"><span>排队中</span><b>$pending</b></div>
   </section>
   <section aria-label="任务列表">$rows</section>
-  <div class="foot">仅显示当前账号的 Slurm 任务 · 页面每 5 分钟自动刷新</div>
+  <section aria-label="节点资源"><div class="section-head"><h2>节点资源</h2><span>每 5 分钟更新</span></div><div class="node-grid">$node_rows</div></section>
+  <section aria-label="近两天任务历史"><div class="section-head"><h2>近两天任务历史</h2><span>$history_count 条已结束任务</span></div><div class="history-list">$history_rows</div></section>
+  <div class="foot">仅显示当前账号的 Slurm 任务 · 目录从 jiangxin/ 开始 · 页面每 5 分钟自动刷新</div>
 </main></body></html>
 EOF
 
