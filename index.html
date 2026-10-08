@@ -29,7 +29,7 @@
   </style>
 </head>
 <body><main class="wrap">
-  <header class="header"><h1>集群任务状态</h1><div class="header-actions"><div class="updated">更新于 2026-10-08 18:45:01</div><button class="refresh" type="button" onclick="window.location.href=window.location.pathname+'?refresh='+Date.now()" aria-label="手动刷新页面">↻ 手动刷新</button></div></header>
+  <header class="header"><h1>集群任务状态</h1><div class="header-actions"><div class="updated">更新于 2026-10-08 18:45:45</div><button class="refresh" type="button" onclick="window.location.href=window.location.pathname+'?refresh='+Date.now()" aria-label="手动刷新页面">↻ 手动刷新</button></div></header>
   <section class="summary" aria-label="任务统计">
     <div class="stat"><span>全部任务</span><b>1</b></div><div class="stat"><span>运行中</span><b>1</b></div><div class="stat"><span>排队中</span><b>0</b></div>
   </section>
@@ -43,121 +43,26 @@
   <section aria-label="节点资源"><div class="section-head"><h2>节点资源</h2><span>每 5 分钟更新</span></div><div class="node-grid">
     <article class="node-card"><div class="node-head"><strong>cn1</strong><span class="node-state mix">混合</span></div><div class="node-cpu"><div><b>31</b><span>空闲核</span></div><div><b>65</b><span>已用核</span></div><div><b>96</b><span>总核数</span></div></div><div class="bar"><i style="width:67.7%"></i></div></article>
     <article class="node-card"><div class="node-head"><strong>master</strong><span class="node-state alloc">已分配</span></div><div class="node-cpu"><div><b>0</b><span>空闲核</span></div><div><b>96</b><span>已用核</span></div><div><b>96</b><span>总核数</span></div></div><div class="bar"><i style="width:100.0%"></i></div></article></div></section>
-  <section aria-label="近两天任务历史"><div class="section-head"><h2>近两天任务历史</h2><span>29 条已结束任务</span></div><div class="history-list">
+  <section aria-label="近两天任务历史"><div class="section-head"><h2>近两天任务历史</h2><span>最近 10 条已结束任务</span></div><div class="history-list">
     <article class="history-card">
-      <div class="history-main"><div><strong>mace_N1</strong><small>#386309</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-07 17:37:33</b></span><span>耗时 <b>0天00时02分</b></span><span>分配核数 <b>4</b></span></div>
-      <div class="history-dir"><b>主目录</b></div>
+      <div class="history-main"><div><strong>tri_stretch4_NEB</strong><small>#386341</small></div><span class="history-state completed">完成</span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-08 15:24:32</b></span><span>耗时 <b>0天04时48分</b></span><span>分配核数 <b>30</b></span></div>
+      <div class="history-dir"><b>AlN&amp;SiC/three/stretch4_relaxed_AAB_CAA_NEB_5images</b></div>
     </article>
     <article class="history-card">
-      <div class="history-main"><div><strong>AAp_fix0</strong><small>#386312</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-07 17:52:36</b></span><span>耗时 <b>0天00时00分</b></span><span>分配核数 <b>8</b></span></div>
-      <div class="history-dir"><b>AlN&amp;SiC/two/strain_AAprime_CA/eps_0/AA_CAl</b></div>
+      <div class="history-main"><div><strong>bash</strong><small>#386339</small></div><span class="history-state failed">已取消</span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-08 10:10:25</b></span><span>耗时 <b>0天00时00分</b></span><span>分配核数 <b>-</b></span></div>
+      <div class="history-dir"><b>CeTaN3_U/polarization_spin_U5_afm/N3_WC</b></div>
     </article>
     <article class="history-card">
-      <div class="history-main"><div><strong>CA_fix0</strong><small>#386313</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-07 17:54:22</b></span><span>耗时 <b>0天00时02分</b></span><span>分配核数 <b>8</b></span></div>
-      <div class="history-dir"><b>AlN&amp;SiC/two/strain_AAprime_CA/eps_0/CA</b></div>
+      <div class="history-main"><div><strong>bash</strong><small>#386338</small></div><span class="history-state failed">已取消</span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-08 10:06:01</b></span><span>耗时 <b>0天00时00分</b></span><span>分配核数 <b>-</b></span></div>
+      <div class="history-dir"><b>CeTaN3_U/polarization_spin_U5_afm/N3_WC</b></div>
     </article>
     <article class="history-card">
-      <div class="history-main"><div><strong>CA_lat_p</strong><small>#386314</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-07 18:34:14</b></span><span>耗时 <b>0天00时27分</b></span><span>分配核数 <b>8</b></span></div>
-      <div class="history-dir"><b>AlN&amp;SiC/two/strain_AAprime_CA/CA_lateral_stability/plus</b></div>
-    </article>
-    <article class="history-card">
-      <div class="history-main"><div><strong>CA_lat_m</strong><small>#386315</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-07 18:40:33</b></span><span>耗时 <b>0天00时33分</b></span><span>分配核数 <b>8</b></span></div>
-      <div class="history-dir"><b>AlN&amp;SiC/two/strain_AAprime_CA/CA_lateral_stability/minus</b></div>
-    </article>
-    <article class="history-card">
-      <div class="history-main"><div><strong>tri_end12</strong><small>#386317</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-07 18:57:43</b></span><span>耗时 <b>0天00时01分</b></span><span>分配核数 <b>12</b></span></div>
-      <div class="history-dir"><b>AlN&amp;SiC/three/endpoint_stability</b></div>
-    </article>
-    <article class="history-card">
-      <div class="history-main"><div><strong>tri_end12</strong><small>#386318</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-07 19:01:52</b></span><span>耗时 <b>0天00时05分</b></span><span>分配核数 <b>12</b></span></div>
-      <div class="history-dir"><b>AlN&amp;SiC/three/endpoint_stability</b></div>
-    </article>
-    <article class="history-card">
-      <div class="history-main"><div><strong>tri_end12</strong><small>#386319</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-07 19:02:24</b></span><span>耗时 <b>0天00时04分</b></span><span>分配核数 <b>12</b></span></div>
-      <div class="history-dir"><b>AlN&amp;SiC/three/endpoint_stability</b></div>
-    </article>
-    <article class="history-card">
-      <div class="history-main"><div><strong>tri_end12</strong><small>#386320</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-07 19:03:14</b></span><span>耗时 <b>0天00时01分</b></span><span>分配核数 <b>12</b></span></div>
-      <div class="history-dir"><b>AlN&amp;SiC/three/endpoint_stability</b></div>
-    </article>
-    <article class="history-card">
-      <div class="history-main"><div><strong>tri_end12</strong><small>#386321</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-07 19:07:32</b></span><span>耗时 <b>0天00时04分</b></span><span>分配核数 <b>12</b></span></div>
-      <div class="history-dir"><b>AlN&amp;SiC/three/endpoint_stability</b></div>
-    </article>
-    <article class="history-card">
-      <div class="history-main"><div><strong>tri_end12</strong><small>#386316</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-07 19:08:54</b></span><span>耗时 <b>0天00时05分</b></span><span>分配核数 <b>12</b></span></div>
-      <div class="history-dir"><b>AlN&amp;SiC/three/endpoint_stability</b></div>
-    </article>
-    <article class="history-card">
-      <div class="history-main"><div><strong>tri_end_refine</strong><small>#386323</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-07 19:35:59</b></span><span>耗时 <b>0天00时01分</b></span><span>分配核数 <b>12</b></span></div>
-      <div class="history-dir"><b>AlN&amp;SiC/three/endpoint_refine_for_response</b></div>
-    </article>
-    <article class="history-card">
-      <div class="history-main"><div><strong>tri_end_refine</strong><small>#386322</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-07 19:35:52</b></span><span>耗时 <b>0天00时01分</b></span><span>分配核数 <b>12</b></span></div>
-      <div class="history-dir"><b>AlN&amp;SiC/three/endpoint_refine_for_response</b></div>
-    </article>
-    <article class="history-card">
-      <div class="history-main"><div><strong>tri_BEC_frozen</strong><small>#386325</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-07 19:49:06</b></span><span>耗时 <b>0天00时07分</b></span><span>分配核数 <b>12</b></span></div>
-      <div class="history-dir"><b>AlN&amp;SiC/three/strain_BEC_frozen</b></div>
-    </article>
-    <article class="history-card">
-      <div class="history-main"><div><strong>tri_BEC_frozen</strong><small>#386326</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-07 19:48:28</b></span><span>耗时 <b>0天00时07分</b></span><span>分配核数 <b>12</b></span></div>
-      <div class="history-dir"><b>AlN&amp;SiC/three/strain_BEC_frozen</b></div>
-    </article>
-    <article class="history-card">
-      <div class="history-main"><div><strong>tri_BEC_frozen</strong><small>#386327</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-07 19:56:35</b></span><span>耗时 <b>0天00时07分</b></span><span>分配核数 <b>12</b></span></div>
-      <div class="history-dir"><b>AlN&amp;SiC/three/strain_BEC_frozen</b></div>
-    </article>
-    <article class="history-card">
-      <div class="history-main"><div><strong>tri_BEC_frozen</strong><small>#386328</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-07 19:57:32</b></span><span>耗时 <b>0天00时08分</b></span><span>分配核数 <b>12</b></span></div>
-      <div class="history-dir"><b>AlN&amp;SiC/three/strain_BEC_frozen</b></div>
-    </article>
-    <article class="history-card">
-      <div class="history-main"><div><strong>tri_BEC_frozen</strong><small>#386329</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-07 20:04:40</b></span><span>耗时 <b>0天00时07分</b></span><span>分配核数 <b>12</b></span></div>
-      <div class="history-dir"><b>AlN&amp;SiC/three/strain_BEC_frozen</b></div>
-    </article>
-    <article class="history-card">
-      <div class="history-main"><div><strong>tri_BEC_frozen</strong><small>#386330</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-07 20:05:26</b></span><span>耗时 <b>0天00时07分</b></span><span>分配核数 <b>12</b></span></div>
-      <div class="history-dir"><b>AlN&amp;SiC/three/strain_BEC_frozen</b></div>
-    </article>
-    <article class="history-card">
-      <div class="history-main"><div><strong>tri_BEC_frozen</strong><small>#386331</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-07 20:11:47</b></span><span>耗时 <b>0天00时06分</b></span><span>分配核数 <b>12</b></span></div>
-      <div class="history-dir"><b>AlN&amp;SiC/three/strain_BEC_frozen</b></div>
-    </article>
-    <article class="history-card">
-      <div class="history-main"><div><strong>tri_BEC_frozen</strong><small>#386332</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-07 20:13:49</b></span><span>耗时 <b>0天00时07分</b></span><span>分配核数 <b>12</b></span></div>
-      <div class="history-dir"><b>AlN&amp;SiC/three/strain_BEC_frozen</b></div>
-    </article>
-    <article class="history-card">
-      <div class="history-main"><div><strong>tri_BEC_frozen</strong><small>#386333</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-07 20:19:52</b></span><span>耗时 <b>0天00时07分</b></span><span>分配核数 <b>12</b></span></div>
-      <div class="history-dir"><b>AlN&amp;SiC/three/strain_BEC_frozen</b></div>
-    </article>
-    <article class="history-card">
-      <div class="history-main"><div><strong>tri_BEC_frozen</strong><small>#386324</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-07 20:21:55</b></span><span>耗时 <b>0天00时07分</b></span><span>分配核数 <b>12</b></span></div>
-      <div class="history-dir"><b>AlN&amp;SiC/three/strain_BEC_frozen</b></div>
+      <div class="history-main"><div><strong>free</strong><small>#386337</small></div><span class="history-state failed">已取消</span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-08 10:05:17</b></span><span>耗时 <b>0天00时00分</b></span><span>分配核数 <b>-</b></span></div>
+      <div class="history-dir"><b>CeTaN3_U/polarization_spin_U5_afm/N3_WC</b></div>
     </article>
     <article class="history-card">
       <div class="history-main"><div><strong>tri_stretch4_relax</strong><small>#386336</small></div><span class="history-state completed">完成</span></div>
@@ -170,24 +75,24 @@
       <div class="history-dir"><b>AlN&amp;SiC/three/stretch4_endpoint_relax</b></div>
     </article>
     <article class="history-card">
-      <div class="history-main"><div><strong>free</strong><small>#386337</small></div><span class="history-state failed">已取消</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-08 10:05:17</b></span><span>耗时 <b>0天00时00分</b></span><span>分配核数 <b>-</b></span></div>
-      <div class="history-dir"><b>CeTaN3_U/polarization_spin_U5_afm/N3_WC</b></div>
+      <div class="history-main"><div><strong>tri_BEC_frozen</strong><small>#386324</small></div><span class="history-state completed">完成</span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-07 20:21:55</b></span><span>耗时 <b>0天00时07分</b></span><span>分配核数 <b>12</b></span></div>
+      <div class="history-dir"><b>AlN&amp;SiC/three/strain_BEC_frozen</b></div>
     </article>
     <article class="history-card">
-      <div class="history-main"><div><strong>bash</strong><small>#386338</small></div><span class="history-state failed">已取消</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-08 10:06:01</b></span><span>耗时 <b>0天00时00分</b></span><span>分配核数 <b>-</b></span></div>
-      <div class="history-dir"><b>CeTaN3_U/polarization_spin_U5_afm/N3_WC</b></div>
+      <div class="history-main"><div><strong>tri_BEC_frozen</strong><small>#386333</small></div><span class="history-state completed">完成</span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-07 20:19:52</b></span><span>耗时 <b>0天00时07分</b></span><span>分配核数 <b>12</b></span></div>
+      <div class="history-dir"><b>AlN&amp;SiC/three/strain_BEC_frozen</b></div>
     </article>
     <article class="history-card">
-      <div class="history-main"><div><strong>bash</strong><small>#386339</small></div><span class="history-state failed">已取消</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-08 10:10:25</b></span><span>耗时 <b>0天00时00分</b></span><span>分配核数 <b>-</b></span></div>
-      <div class="history-dir"><b>CeTaN3_U/polarization_spin_U5_afm/N3_WC</b></div>
+      <div class="history-main"><div><strong>tri_BEC_frozen</strong><small>#386332</small></div><span class="history-state completed">完成</span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-07 20:13:49</b></span><span>耗时 <b>0天00时07分</b></span><span>分配核数 <b>12</b></span></div>
+      <div class="history-dir"><b>AlN&amp;SiC/three/strain_BEC_frozen</b></div>
     </article>
     <article class="history-card">
-      <div class="history-main"><div><strong>tri_stretch4_NEB</strong><small>#386341</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-10-08 15:24:32</b></span><span>耗时 <b>0天04时48分</b></span><span>分配核数 <b>30</b></span></div>
-      <div class="history-dir"><b>AlN&amp;SiC/three/stretch4_relaxed_AAB_CAA_NEB_5images</b></div>
+      <div class="history-main"><div><strong>tri_BEC_frozen</strong><small>#386331</small></div><span class="history-state completed">完成</span></div>
+      <div class="history-meta"><span>结束 <b>2026-10-07 20:11:47</b></span><span>耗时 <b>0天00时06分</b></span><span>分配核数 <b>12</b></span></div>
+      <div class="history-dir"><b>AlN&amp;SiC/three/strain_BEC_frozen</b></div>
     </article></div></section>
   <div class="foot">仅显示当前账号的 Slurm 任务 · 目录从用户目录后开始 · 页面每 5 分钟自动刷新</div>
 </main></body></html>
