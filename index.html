@@ -29,11 +29,17 @@
   </style>
 </head>
 <body><main class="wrap">
-  <header class="header"><h1>集群任务状态</h1><div class="header-actions"><div class="updated">更新于 2026-11-14 20:35:01</div><button class="refresh" type="button" onclick="window.location.href=window.location.pathname+'?refresh='+Date.now()" aria-label="手动刷新页面">↻ 手动刷新</button></div></header>
+  <header class="header"><h1>集群任务状态</h1><div class="header-actions"><div class="updated">更新于 2026-11-14 20:40:02</div><button class="refresh" type="button" onclick="window.location.href=window.location.pathname+'?refresh='+Date.now()" aria-label="手动刷新页面">↻ 手动刷新</button></div></header>
   <section class="summary" aria-label="任务统计">
-    <div class="stat"><span>全部任务</span><b>16</b></div><div class="stat"><span>运行中</span><b>7</b></div><div class="stat"><span>排队中</span><b>9</b></div>
+    <div class="stat"><span>全部任务</span><b>15</b></div><div class="stat"><span>运行中</span><b>7</b></div><div class="stat"><span>排队中</span><b>8</b></div>
   </section>
   <section aria-label="任务列表">
+    <article class="job-card">
+      <div class="job-main"><div class="job-title"><span class="job-dot pending"></span><strong>Bi_SOC_strain</strong><small class="job-id">#392284</small></div><span class="state pending">排队中</span></div>
+      <div class="facts"><span><em>运行时间</em><b>0天00时00分</b></span><span><em>分配核数</em><b>8</b></span><span><em>节点数</em><b>1</b></span></div>
+      <div class="location"><span>节点 / 排队原因</span><b>(Priority)</b></div>
+      <div class="workdir" title="Bi/SOC_piezo/strain_a/strain_0.003"><span>投递目录</span><b>Bi/SOC_piezo/strain_a/strain_0.003</b></div>
+    </article>
     <article class="job-card">
       <div class="job-main"><div class="job-title"><span class="job-dot pending"></span><strong>Bi_SOC_strain</strong><small class="job-id">#392283</small></div><span class="state pending">排队中</span></div>
       <div class="facts"><span><em>运行时间</em><b>0天00时00分</b></span><span><em>分配核数</em><b>8</b></span><span><em>节点数</em><b>1</b></span></div>
@@ -41,13 +47,7 @@
       <div class="workdir" title="Bi/SOC_piezo/strain_a/strain_0.002"><span>投递目录</span><b>Bi/SOC_piezo/strain_a/strain_0.002</b></div>
     </article>
     <article class="job-card">
-      <div class="job-main"><div class="job-title"><span class="job-dot pending"></span><strong>Bi_SOC_strain</strong><small class="job-id">#392282</small></div><span class="state pending">排队中</span></div>
-      <div class="facts"><span><em>运行时间</em><b>0天00时00分</b></span><span><em>分配核数</em><b>8</b></span><span><em>节点数</em><b>1</b></span></div>
-      <div class="location"><span>节点 / 排队原因</span><b>(Priority)</b></div>
-      <div class="workdir" title="Bi/SOC_piezo/strain_a/strain_0.001"><span>投递目录</span><b>Bi/SOC_piezo/strain_a/strain_0.001</b></div>
-    </article>
-    <article class="job-card">
-      <div class="job-main"><div class="job-title"><span class="job-dot pending"></span><strong>Bi_PBE_exxm01_ISIF3</strong><small class="job-id">#392155_[208-255%4]</small></div><span class="state pending">排队中</span></div>
+      <div class="job-main"><div class="job-title"><span class="job-dot pending"></span><strong>Bi_PBE_exxm01_ISIF3</strong><small class="job-id">#392155_[216-255%4]</small></div><span class="state pending">排队中</span></div>
       <div class="facts"><span><em>运行时间</em><b>0天00时00分</b></span><span><em>分配核数</em><b>16</b></span><span><em>节点数</em><b>1</b></span></div>
       <div class="location"><span>节点 / 排队原因</span><b>(JobArrayTaskLimit)</b></div>
       <div class="workdir" title="Bi/PBE_strain_x_m1pct_ISIF3"><span>投递目录</span><b>Bi/PBE_strain_x_m1pct_ISIF3</b></div>
@@ -83,105 +83,99 @@
       <div class="workdir" title="Bi/SOC_piezo/strain_a/strain_0.004"><span>投递目录</span><b>Bi/SOC_piezo/strain_a/strain_0.004</b></div>
     </article>
     <article class="job-card">
-      <div class="job-main"><div class="job-title"><span class="job-dot pending"></span><strong>Bi_SOC_strain</strong><small class="job-id">#392284</small></div><span class="state pending">排队中</span></div>
-      <div class="facts"><span><em>运行时间</em><b>0天00时00分</b></span><span><em>分配核数</em><b>8</b></span><span><em>节点数</em><b>1</b></span></div>
-      <div class="location"><span>节点 / 排队原因</span><b>(Priority)</b></div>
-      <div class="workdir" title="Bi/SOC_piezo/strain_a/strain_0.003"><span>投递目录</span><b>Bi/SOC_piezo/strain_a/strain_0.003</b></div>
-    </article>
-    <article class="job-card">
-      <div class="job-main"><div class="job-title"><span class="job-dot running"></span><strong>Bi_PBE_exxm01_ISIF3</strong><small class="job-id">#392155_207</small></div><span class="state running">运行中</span></div>
+      <div class="job-main"><div class="job-title"><span class="job-dot running"></span><strong>Bi_PBE_exxm01_ISIF3</strong><small class="job-id">#392155_215</small></div><span class="state running">运行中</span></div>
       <div class="facts"><span><em>运行时间</em><b>0天00时00分</b></span><span><em>分配核数</em><b>16</b></span><span><em>节点数</em><b>1</b></span></div>
       <div class="location"><span>节点 / 排队原因</span><b>master</b></div>
       <div class="workdir" title="Bi/PBE_strain_x_m1pct_ISIF3"><span>投递目录</span><b>Bi/PBE_strain_x_m1pct_ISIF3</b></div>
     </article>
     <article class="job-card">
-      <div class="job-main"><div class="job-title"><span class="job-dot running"></span><strong>Bi_PBE_exxm01_ISIF3</strong><small class="job-id">#392155_204</small></div><span class="state running">运行中</span></div>
+      <div class="job-main"><div class="job-title"><span class="job-dot running"></span><strong>Bi_PBE_exxm01_ISIF3</strong><small class="job-id">#392155_214</small></div><span class="state running">运行中</span></div>
+      <div class="facts"><span><em>运行时间</em><b>0天00时01分</b></span><span><em>分配核数</em><b>16</b></span><span><em>节点数</em><b>1</b></span></div>
+      <div class="location"><span>节点 / 排队原因</span><b>cn1</b></div>
+      <div class="workdir" title="Bi/PBE_strain_x_m1pct_ISIF3"><span>投递目录</span><b>Bi/PBE_strain_x_m1pct_ISIF3</b></div>
+    </article>
+    <article class="job-card">
+      <div class="job-main"><div class="job-title"><span class="job-dot running"></span><strong>Bi_PBE_exxm01_ISIF3</strong><small class="job-id">#392155_213</small></div><span class="state running">运行中</span></div>
+      <div class="facts"><span><em>运行时间</em><b>0天00时01分</b></span><span><em>分配核数</em><b>16</b></span><span><em>节点数</em><b>1</b></span></div>
+      <div class="location"><span>节点 / 排队原因</span><b>cn1</b></div>
+      <div class="workdir" title="Bi/PBE_strain_x_m1pct_ISIF3"><span>投递目录</span><b>Bi/PBE_strain_x_m1pct_ISIF3</b></div>
+    </article>
+    <article class="job-card">
+      <div class="job-main"><div class="job-title"><span class="job-dot running"></span><strong>Bi_PBE_exxm01_ISIF3</strong><small class="job-id">#392155_212</small></div><span class="state running">运行中</span></div>
       <div class="facts"><span><em>运行时间</em><b>0天00时02分</b></span><span><em>分配核数</em><b>16</b></span><span><em>节点数</em><b>1</b></span></div>
       <div class="location"><span>节点 / 排队原因</span><b>cn1</b></div>
       <div class="workdir" title="Bi/PBE_strain_x_m1pct_ISIF3"><span>投递目录</span><b>Bi/PBE_strain_x_m1pct_ISIF3</b></div>
     </article>
     <article class="job-card">
-      <div class="job-main"><div class="job-title"><span class="job-dot running"></span><strong>Bi_PBE_exxm01_ISIF3</strong><small class="job-id">#392155_205</small></div><span class="state running">运行中</span></div>
-      <div class="facts"><span><em>运行时间</em><b>0天00时02分</b></span><span><em>分配核数</em><b>16</b></span><span><em>节点数</em><b>1</b></span></div>
-      <div class="location"><span>节点 / 排队原因</span><b>cn1</b></div>
-      <div class="workdir" title="Bi/PBE_strain_x_m1pct_ISIF3"><span>投递目录</span><b>Bi/PBE_strain_x_m1pct_ISIF3</b></div>
-    </article>
-    <article class="job-card">
-      <div class="job-main"><div class="job-title"><span class="job-dot running"></span><strong>Bi_PBE_exxm01_ISIF3</strong><small class="job-id">#392155_203</small></div><span class="state running">运行中</span></div>
-      <div class="facts"><span><em>运行时间</em><b>0天00时02分</b></span><span><em>分配核数</em><b>16</b></span><span><em>节点数</em><b>1</b></span></div>
-      <div class="location"><span>节点 / 排队原因</span><b>cn1</b></div>
-      <div class="workdir" title="Bi/PBE_strain_x_m1pct_ISIF3"><span>投递目录</span><b>Bi/PBE_strain_x_m1pct_ISIF3</b></div>
+      <div class="job-main"><div class="job-title"><span class="job-dot running"></span><strong>Bi_SOC_strain</strong><small class="job-id">#392282</small></div><span class="state running">运行中</span></div>
+      <div class="facts"><span><em>运行时间</em><b>0天00时03分</b></span><span><em>分配核数</em><b>8</b></span><span><em>节点数</em><b>1</b></span></div>
+      <div class="location"><span>节点 / 排队原因</span><b>master</b></div>
+      <div class="workdir" title="Bi/SOC_piezo/strain_a/strain_0.001"><span>投递目录</span><b>Bi/SOC_piezo/strain_a/strain_0.001</b></div>
     </article>
     <article class="job-card">
       <div class="job-main"><div class="job-title"><span class="job-dot running"></span><strong>Bi_SOC_strain</strong><small class="job-id">#392281</small></div><span class="state running">运行中</span></div>
-      <div class="facts"><span><em>运行时间</em><b>0天00时05分</b></span><span><em>分配核数</em><b>8</b></span><span><em>节点数</em><b>1</b></span></div>
+      <div class="facts"><span><em>运行时间</em><b>0天00时10分</b></span><span><em>分配核数</em><b>8</b></span><span><em>节点数</em><b>1</b></span></div>
       <div class="location"><span>节点 / 排队原因</span><b>master</b></div>
       <div class="workdir" title="Bi/SOC_piezo/strain_a/strain_-0.006"><span>投递目录</span><b>Bi/SOC_piezo/strain_a/strain_-0.006</b></div>
     </article>
     <article class="job-card">
       <div class="job-main"><div class="job-title"><span class="job-dot running"></span><strong>Bi_SOC_strain</strong><small class="job-id">#392278</small></div><span class="state running">运行中</span></div>
-      <div class="facts"><span><em>运行时间</em><b>0天00时59分</b></span><span><em>分配核数</em><b>8</b></span><span><em>节点数</em><b>1</b></span></div>
+      <div class="facts"><span><em>运行时间</em><b>0天01时04分</b></span><span><em>分配核数</em><b>8</b></span><span><em>节点数</em><b>1</b></span></div>
       <div class="location"><span>节点 / 排队原因</span><b>cn1</b></div>
       <div class="workdir" title="Bi/SOC_piezo/strain_a/strain_-0.009"><span>投递目录</span><b>Bi/SOC_piezo/strain_a/strain_-0.009</b></div>
-    </article>
-    <article class="job-card">
-      <div class="job-main"><div class="job-title"><span class="job-dot running"></span><strong>Bi_SOC_strain</strong><small class="job-id">#392279</small></div><span class="state running">运行中</span></div>
-      <div class="facts"><span><em>运行时间</em><b>0天00时59分</b></span><span><em>分配核数</em><b>8</b></span><span><em>节点数</em><b>1</b></span></div>
-      <div class="location"><span>节点 / 排队原因</span><b>master</b></div>
-      <div class="workdir" title="Bi/SOC_piezo/strain_a/strain_-0.008"><span>投递目录</span><b>Bi/SOC_piezo/strain_a/strain_-0.008</b></div>
     </article></section>
   <section aria-label="节点资源"><div class="section-head"><h2>节点资源</h2><span>每 5 分钟更新</span></div><div class="node-grid">
     <article class="node-card"><div class="node-head"><strong>cn1</strong><span class="node-state alloc">已分配</span></div><div class="node-cpu"><div><b>0</b><span>空闲核</span></div><div><b>96</b><span>已用核</span></div><div><b>96</b><span>总核数</span></div></div><div class="bar"><i style="width:100.0%"></i></div></article>
     <article class="node-card"><div class="node-head"><strong>master</strong><span class="node-state alloc">已分配</span></div><div class="node-cpu"><div><b>0</b><span>空闲核</span></div><div><b>96</b><span>已用核</span></div><div><b>96</b><span>总核数</span></div></div><div class="bar"><i style="width:100.0%"></i></div></article></div></section>
   <section aria-label="近两天任务历史"><div class="section-head"><h2>近两天任务历史</h2><span>最近 10 条已结束任务</span></div><div class="history-list">
     <article class="history-card">
+      <div class="history-main"><div><strong>Bi_PBE_exxm01_ISIF3</strong><small>#392380</small></div><span class="history-state completed">完成</span></div>
+      <div class="history-meta"><span>结束 <b>2026-11-14 20:39:14</b></span><span>耗时 <b>0天00时02分</b></span><span>分配核数 <b>16</b></span></div>
+      <div class="history-dir"><b>Bi/PBE_strain_x_m1pct_ISIF3</b></div>
+    </article>
+    <article class="history-card">
+      <div class="history-main"><div><strong>Bi_PBE_exxm01_ISIF3</strong><small>#392379</small></div><span class="history-state completed">完成</span></div>
+      <div class="history-meta"><span>结束 <b>2026-11-14 20:38:32</b></span><span>耗时 <b>0天00时02分</b></span><span>分配核数 <b>16</b></span></div>
+      <div class="history-dir"><b>Bi/PBE_strain_x_m1pct_ISIF3</b></div>
+    </article>
+    <article class="history-card">
+      <div class="history-main"><div><strong>Bi_PBE_exxm01_ISIF3</strong><small>#392378</small></div><span class="history-state completed">完成</span></div>
+      <div class="history-meta"><span>结束 <b>2026-11-14 20:38:22</b></span><span>耗时 <b>0天00时02分</b></span><span>分配核数 <b>16</b></span></div>
+      <div class="history-dir"><b>Bi/PBE_strain_x_m1pct_ISIF3</b></div>
+    </article>
+    <article class="history-card">
+      <div class="history-main"><div><strong>Bi_PBE_exxm01_ISIF3</strong><small>#392377</small></div><span class="history-state completed">完成</span></div>
+      <div class="history-meta"><span>结束 <b>2026-11-14 20:37:18</b></span><span>耗时 <b>0天00时01分</b></span><span>分配核数 <b>16</b></span></div>
+      <div class="history-dir"><b>Bi/PBE_strain_x_m1pct_ISIF3</b></div>
+    </article>
+    <article class="history-card">
+      <div class="history-main"><div><strong>Bi_PBE_exxm01_ISIF3</strong><small>#392376</small></div><span class="history-state completed">完成</span></div>
+      <div class="history-meta"><span>结束 <b>2026-11-14 20:36:43</b></span><span>耗时 <b>0天00时01分</b></span><span>分配核数 <b>16</b></span></div>
+      <div class="history-dir"><b>Bi/PBE_strain_x_m1pct_ISIF3</b></div>
+    </article>
+    <article class="history-card">
+      <div class="history-main"><div><strong>Bi_SOC_strain</strong><small>#392279</small></div><span class="history-state completed">完成</span></div>
+      <div class="history-meta"><span>结束 <b>2026-11-14 20:36:40</b></span><span>耗时 <b>0天01时00分</b></span><span>分配核数 <b>8</b></span></div>
+      <div class="history-dir"><b>Bi/SOC_piezo/strain_a/strain_-0.008</b></div>
+    </article>
+    <article class="history-card">
+      <div class="history-main"><div><strong>Bi_PBE_exxm01_ISIF3</strong><small>#392373</small></div><span class="history-state completed">完成</span></div>
+      <div class="history-meta"><span>结束 <b>2026-11-14 20:36:09</b></span><span>耗时 <b>0天00时03分</b></span><span>分配核数 <b>16</b></span></div>
+      <div class="history-dir"><b>Bi/PBE_strain_x_m1pct_ISIF3</b></div>
+    </article>
+    <article class="history-card">
+      <div class="history-main"><div><strong>Bi_PBE_exxm01_ISIF3</strong><small>#392374</small></div><span class="history-state completed">完成</span></div>
+      <div class="history-meta"><span>结束 <b>2026-11-14 20:35:51</b></span><span>耗时 <b>0天00时02分</b></span><span>分配核数 <b>16</b></span></div>
+      <div class="history-dir"><b>Bi/PBE_strain_x_m1pct_ISIF3</b></div>
+    </article>
+    <article class="history-card">
+      <div class="history-main"><div><strong>Bi_PBE_exxm01_ISIF3</strong><small>#392372</small></div><span class="history-state completed">完成</span></div>
+      <div class="history-meta"><span>结束 <b>2026-11-14 20:35:33</b></span><span>耗时 <b>0天00时03分</b></span><span>分配核数 <b>16</b></span></div>
+      <div class="history-dir"><b>Bi/PBE_strain_x_m1pct_ISIF3</b></div>
+    </article>
+    <article class="history-card">
       <div class="history-main"><div><strong>Bi_PBE_exxm01_ISIF3</strong><small>#392375</small></div><span class="history-state completed">完成</span></div>
       <div class="history-meta"><span>结束 <b>2026-11-14 20:34:46</b></span><span>耗时 <b>0天00时01分</b></span><span>分配核数 <b>16</b></span></div>
-      <div class="history-dir"><b>Bi/PBE_strain_x_m1pct_ISIF3</b></div>
-    </article>
-    <article class="history-card">
-      <div class="history-main"><div><strong>Bi_PBE_exxm01_ISIF3</strong><small>#392370</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-11-14 20:32:54</b></span><span>耗时 <b>0天00时02分</b></span><span>分配核数 <b>16</b></span></div>
-      <div class="history-dir"><b>Bi/PBE_strain_x_m1pct_ISIF3</b></div>
-    </article>
-    <article class="history-card">
-      <div class="history-main"><div><strong>Bi_PBE_exxm01_ISIF3</strong><small>#392371</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-11-14 20:32:53</b></span><span>耗时 <b>0天00时02分</b></span><span>分配核数 <b>16</b></span></div>
-      <div class="history-dir"><b>Bi/PBE_strain_x_m1pct_ISIF3</b></div>
-    </article>
-    <article class="history-card">
-      <div class="history-main"><div><strong>Bi_PBE_exxm01_ISIF3</strong><small>#392369</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-11-14 20:32:32</b></span><span>耗时 <b>0天00时02分</b></span><span>分配核数 <b>16</b></span></div>
-      <div class="history-dir"><b>Bi/PBE_strain_x_m1pct_ISIF3</b></div>
-    </article>
-    <article class="history-card">
-      <div class="history-main"><div><strong>Bi_PBE_exxm01_ISIF3</strong><small>#392368</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-11-14 20:32:06</b></span><span>耗时 <b>0天00时02分</b></span><span>分配核数 <b>16</b></span></div>
-      <div class="history-dir"><b>Bi/PBE_strain_x_m1pct_ISIF3</b></div>
-    </article>
-    <article class="history-card">
-      <div class="history-main"><div><strong>Bi_PBE_exxm01_ISIF3</strong><small>#392367</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-11-14 20:30:18</b></span><span>耗时 <b>0天00时02分</b></span><span>分配核数 <b>16</b></span></div>
-      <div class="history-dir"><b>Bi/PBE_strain_x_m1pct_ISIF3</b></div>
-    </article>
-    <article class="history-card">
-      <div class="history-main"><div><strong>Bi_PBE_exxm01_ISIF3</strong><small>#392366</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-11-14 20:30:01</b></span><span>耗时 <b>0天00时02分</b></span><span>分配核数 <b>16</b></span></div>
-      <div class="history-dir"><b>Bi/PBE_strain_x_m1pct_ISIF3</b></div>
-    </article>
-    <article class="history-card">
-      <div class="history-main"><div><strong>Bi_PBE_exxm01_ISIF3</strong><small>#392365</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-11-14 20:29:32</b></span><span>耗时 <b>0天00时02分</b></span><span>分配核数 <b>16</b></span></div>
-      <div class="history-dir"><b>Bi/PBE_strain_x_m1pct_ISIF3</b></div>
-    </article>
-    <article class="history-card">
-      <div class="history-main"><div><strong>Bi_SOC_strain</strong><small>#392280</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-11-14 20:29:08</b></span><span>耗时 <b>0天00时53分</b></span><span>分配核数 <b>8</b></span></div>
-      <div class="history-dir"><b>Bi/SOC_piezo/strain_a/strain_-0.007</b></div>
-    </article>
-    <article class="history-card">
-      <div class="history-main"><div><strong>Bi_PBE_exxm01_ISIF3</strong><small>#392364</small></div><span class="history-state completed">完成</span></div>
-      <div class="history-meta"><span>结束 <b>2026-11-14 20:29:02</b></span><span>耗时 <b>0天00时02分</b></span><span>分配核数 <b>16</b></span></div>
       <div class="history-dir"><b>Bi/PBE_strain_x_m1pct_ISIF3</b></div>
     </article></div></section>
   <div class="foot">仅显示当前账号的 Slurm 任务 · 目录从用户目录后开始 · 页面每 5 分钟自动刷新</div>
